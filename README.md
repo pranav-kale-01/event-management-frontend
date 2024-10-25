@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# Campus Navigator Backend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the backend code for the Campus Navigator application, which provides an API to manage campus locations and events.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (version 14 or higher)
+- MongoDB (or any other database you prefer)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone the repository:
 
-- Configure the top-level `parserOptions` property like this:
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+2. Install the dependencies:
+  
+    ```bash
+      npm install
+    ```
+
+2. Set up your environment variables in a .env file:
+    
+    Paste the .env file in the location as shown in the below image 
+    
+    ![image](https://github.com/user-attachments/assets/cb0dd432-717b-417d-9cf6-2c848eb337be)
+    
+3. Start the server:
+
+  ```bash
+    npm run start
+  ```
+
+This will start the server on http://localhost:3001 (or any port specified in your environment variables).
+
+
+You can also run the server in development mode with:
+
+  ```bash
+    npm run dev
+  ```
+
+This will allow you to make changes and see them reflected immediately without restarting the server.
+
+## API Endpoints
+
+* GET /api/locations: Fetch all campus locations.
+* GET /api/locations/ : Get details of a specific location by ID.
+* GET /api/locations/search: Search for locations by query parameter.
+* PUT /api/edit_event/ : Edit an existing event by ID.
+
+## Testing
+
+You can run tests using:
+
+```bash
+  npm run test
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## License
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+This project is licensed under the MIT License.
