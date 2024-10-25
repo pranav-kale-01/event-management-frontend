@@ -1,65 +1,49 @@
-# Campus Navigator Backend
+# Campus Navigator Frontend
 
-This repository contains the backend code for the Campus Navigator application, which provides an API to manage campus locations and events.
+   This repository contains the frontend code for the Campus Navigator application built with Vite and Shadcn UI components.
 
 ## Requirements
-
-- Node.js (version 14 or higher)
-- MongoDB (or any other database you prefer)
-
+   Node.js (version 14 or higher)
+   
 ## Installation
+   
+   1. Clone the repository:
+      
+      ```bash
+      git clone https://github.com/pranav-kale-01/event-management-frontend
+      cd event-management-frontend
+      ```
+      
+   2. Install the dependencies:
 
-1. Clone the repository:
-
-   ```bash
-   git clone <repository-url>
-   cd <repository-name>
-   ```
-
-2. Install the dependencies:
-  
-    ```bash
+      ```bash
       npm install
-    ```
+      ```
+      
+   3. Running the Application
 
-2. Set up your environment variables in a .env file:
-    
-    Paste the .env file in the location as shown in the below image 
-    
-    ![image](https://github.com/user-attachments/assets/cb0dd432-717b-417d-9cf6-2c848eb337be)
-    
-3. Start the server:
+      Start the development server:
 
-  ```bash
-    npm run start
-  ```
+         ```bash
+         npm run dev
+         ```
 
-This will start the server on http://localhost:3001 (or any port specified in your environment variables).
+      This will start the application on http://localhost:3000.
+
+      Open your browser and navigate to the URL to see the application in action.
+
+## Project Structure
+   
+   * src/: Contains the source code for the application.
+   * components/: Reusable UI components.
+   * pages/: Application pages.
+   * api/: Contains API service functions to communicate with the backend.
 
 
-You can also run the server in development mode with:
+## Using Shadcn
 
-  ```bash
-    npm run dev
-  ```
-
-This will allow you to make changes and see them reflected immediately without restarting the server.
-
-## API Endpoints
-
-* GET /api/locations: Fetch all campus locations.
-* GET /api/locations/ : Get details of a specific location by ID.
-* GET /api/locations/search: Search for locations by query parameter.
-* PUT /api/edit_event/ : Edit an existing event by ID.
-
-## Testing
-
-You can run tests using:
-
-```bash
-  npm run test
-```
+   This project utilizes Shadcn for styled UI components. Make sure to refer to the Shadcn documentation for guidelines on how to customize and use the components effectively.
 
 ## License
-
-This project is licensed under the MIT License.
+   
+   This project is licensed under the MIT License.
