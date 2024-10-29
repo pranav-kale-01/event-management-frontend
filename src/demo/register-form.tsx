@@ -15,12 +15,12 @@ const RegisterForm = () => {
 
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
+    userType: "Student",
   });
 
   const [errors, setErrors] = useState({
     email: "",
-    password: "",
+    userType: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,15 +39,16 @@ const RegisterForm = () => {
     return "";
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
     setErrors((prev) => ({
       ...prev,
-      [name]: "",
+      [e.target.name]: "",
     }));
   };
 
@@ -57,102 +58,151 @@ const RegisterForm = () => {
 
     // Validate all fields
     const emailError = validateEmail(formData.email);
-    const passwordError = validatePassword(formData.password);
+    // const passwordError = validatePassword(formData.password);
+    const userType = formData.userType;
 
     setErrors({
       email: emailError,
-      password: passwordError,
+      userType: userType,
     });
 
-    if (emailError || passwordError) return;
-
-    setIsSubmitting(true);
+    if (emailError) return;
 
     try {
-      console.log("test");
-      const response = await fetch(`${API_URL}/auth/register`, {
+      const response = await fetch(`${API_URL}/auth/otp/sendOtp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email,
+          userType: formData.userType,
+        }),
       });
 
-      const data = await response.json();
-
-      console.log(response);
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        const errorData = await response.json();
+        setSubmitError(
+          errorData.message || "Failed to send OTP. Please try again."
+        );
+      } else {
+        // Handle successful registration (e.g., redirect to login or dashboard)
+        addNotification("Sucess", "Otp Sent Successfully!", "success");
+
+        // Redirect to VerifyOtp page
+        navigate("/verifyOtp",  { state: { email: formData.email, userType: formData.userType } } );
       }
-
-      // Store token in localStorage
-      localStorage.setItem("token", data.token);
-
-      // Handle successful registration (e.g., redirect to login or dashboard)
-      addNotification('Sucess', 'User Registered Successfully!', 'success');
-
-      // Redirect to the login page
-      navigate('/login');
-      
-    } catch (error: any) {
-      setSubmitError(error.message || "Registration failed. Please try again.");
+    } catch (error) {
+      setSubmitError("An error occurred. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
+
+    // setIsSubmitting(true);
+
+    // try {
+    //   console.log("test");
+    //   const response = await fetch(`${API_URL}/auth/register`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
+
+    //   const data = await response.json();
+
+    //   console.log(response);
+    //   if (!response.ok) {
+    //     throw new Error(data.message || "Registration failed");
+    //   }
+
+    //   // Store token in localStorage
+    //   localStorage.setItem("token", data.token);
+
+    //   // Handle successful registration (e.g., redirect to login or dashboard)
+    //   addNotification("Sucess", "User Registered Successfully!", "success");
+
+    //   // Redirect to the login page
+    //   navigate("/login");
+    // } catch (error: any) {
+    //   setSubmitError(error.message || "Registration failed. Please try again.");
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   return (
-    <div className="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold">Register</h1>
-        <p className="text-gray-500">Create your account</p>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Form Section */}
+        <div className="w-full md:w-1/2 p-6 space-y-6">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold">Register</h1>
+            <p className="text-gray-500">Enter your details to get started</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                className={errors.email ? "border-red-500" : ""}
+              />
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="userType">User Type</Label>
+              <select
+                id="userType"
+                name="userType"
+                value={formData.userType}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-md text-gray-600 bg-white"
+              >
+                <option value="Student">Student</option>
+                <option value="Visitor">Visitor</option>
+              </select>
+            </div>
+
+            {submitError && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{submitError}</AlertDescription>
+              </Alert>
+            )}
+
+            <Button
+              type="submit"
+              className="w-full flex items-center justify-center"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Sending OTP..." : "Send OTP"}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </form>
+        </div>
+
+        {/* Image Section */}
+        <div
+          className="hidden md:flex md:w-1/2 bg-cover bg-center"
+          style={{ backgroundImage: 'url("https://mgmjournalism.org/images/about/about-mgm/mgm-university-aurangabad-about.jpg")' }}
+        >
+          <div className="flex items-center justify-center h-full bg-gray-800 bg-opacity-50">
+            <h2 className="text-white text-4xl font-semibold">
+              Welcome to Campus Navigator!
+            </h2>
+          </div>
+        </div>
       </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleChange}
-            className={errors.email ? "border-red-500" : ""}
-          />
-          {errors.email && (
-            <p className="text-sm text-red-500">{errors.email}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-            className={errors.password ? "border-red-500" : ""}
-          />
-          {errors.password && (
-            <p className="text-sm text-red-500">{errors.password}</p>
-          )}
-        </div>
-
-        {submitError && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{submitError}</AlertDescription>
-          </Alert>
-        )}
-
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Registering..." : "Register"}
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </form>
     </div>
   );
 };
