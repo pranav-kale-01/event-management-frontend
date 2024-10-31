@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -87,9 +87,6 @@ const LoginForm = () => {
         throw new Error(data.message || "Login failed");
       }
 
-      // Store token in localStorage
-      localStorage.setItem("token", data.token);
-
       // Example of fetching protected data after login
       const protectedResponse = await fetch(`${API_URL}/protected`, {
         headers: {
@@ -104,29 +101,19 @@ const LoginForm = () => {
 
         // Store token and navigate to dashboard based on userType
         const token = data.token;
-        const userType = data.userType;
+        const user = data.user;
 
-        localStorage.setItem("token", token); // Store the token as needed
-
-        if (userType === "Student") {
-          navigate("/studentDashboard");
-        } else if (userType === "Visitor") {
-          navigate("/visitorDashboard");
-        }
-
-        console.log( data );
+        localStorage.setItem("token", token); 
+        localStorage.setItem("user", JSON.stringify(user));
 
         // Redirect to appropriate dashboard based on userType
-        if( data.userType === "Student") {
+        if (user.userType === "Student") {
           navigate("/studentDashboard");
-        }
-        else if( data.userType === "Visitor") {
+        } else if (user.userType === "Visitor") {
           navigate("/visitorDashboard");
-        }
-        else {
+        } else {
           navigate("/adminDashboard");
         }
-        
       }
     } catch (error: any) {
       setSubmitError(error.message || "Login failed. Please try again.");
@@ -137,28 +124,28 @@ const LoginForm = () => {
     }
   };
 
-  // Optional: Function to check if user is already logged in
-  const checkAuthStatus = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return false;
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
 
-    try {
-      const response = await fetch(`${API_URL}/protected`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    if (userData != null) {
+      const user = JSON.parse( userData );
 
-      return response.ok;
-    } catch (error) {
-      return false;
+      if (user.userType === "Student") {
+        navigate("/studentDashboard");
+      } else if (user.userType === "Visitor") {
+        navigate("/visitorDashboard");
+      } else {
+        navigate("/adminDashboard");
+      }
     }
-  };
+  });
 
   return (
     <div className="flex items-center justify-between min-h-screen bg-gray-100 w-screen">
       <div className="flex flex-col items-center w-1/3">
-        <h1 className="mb-24 w-full text-center text-strong">Welcome to Campus Navigator Application!</h1>
+        <h1 className="mb-24 w-full text-center text-strong">
+          Welcome to Campus Navigator Application!
+        </h1>
         <div className="max-w-md p-8 bg-white rounded-lg shadow-lg relative overflow-hidden">
           <h1 className="text-2xl font-bold text-center">Login</h1>
           {error && <p className="text-sm text-red-500">{error}</p>}

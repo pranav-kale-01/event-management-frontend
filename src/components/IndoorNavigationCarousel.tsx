@@ -60,7 +60,7 @@ const IndoorNavigationCarousel = () => {
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-auto max-h-96 object-contain rounded-lg shadow-md"
+                      className="w-full h-auto max-h-[22rem] object-contain rounded-lg shadow-md"
                       onClick={() => handleImageClick(image.src)}
                     />
                   </CardContent>

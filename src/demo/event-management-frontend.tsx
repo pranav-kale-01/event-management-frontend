@@ -8,20 +8,27 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Comment, Event } from "@/types";
+import { Bar, Line } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
 
 const API_URL = "http://localhost:3001/api";
+
+// Register the necessary components
+Chart.register(...registerables);
 
 const EventManagement: React.FC = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  // const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [comments, setComments] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegistrationsOpen, setIsRegistrationsOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentUser, setCurrentUser] = useState<{
     token: string;
@@ -33,191 +40,209 @@ const EventManagement: React.FC = () => {
     password: "",
   });
 
-  const events = [
-    {
-      _id: "671bbf0b05c6dbc92d4b2076",
-      title: "Football Match",
-      category: "Sports",
-      date: new Date("2023-10-15T00:00:00.000Z"), // Date in ISO format
-      description: "Exciting football match between top teams.",
-      organizer: "Sports Committee",
-      createdAt: new Date("2023-09-25T15:53:47.364Z"), // Date in ISO format
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2077",
-      title: "Basketball Tournament",
-      category: "Sports",
-      date: new Date("2023-10-20T00:00:00.000Z"),
-      description: "Annual basketball tournament with local teams.",
-      organizer: "Sports Committee",
-      createdAt: new Date("2023-09-26T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2078",
-      title: "Cricket League",
-      category: "Sports",
-      date: new Date("2023-10-25T00:00:00.000Z"),
-      description: "Cricket league featuring regional teams.",
-      organizer: "Cricket Association",
-      createdAt: new Date("2023-09-27T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2079",
-      title: "Hackathon",
-      category: "Technical",
-      date: new Date("2023-11-01T00:00:00.000Z"),
-      description: "24-hour hackathon to create innovative solutions.",
-      organizer: "Tech Club",
-      createdAt: new Date("2023-09-28T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2080",
-      title: "Workshop on AI",
-      category: "Technical",
-      date: new Date("2023-11-05T00:00:00.000Z"),
-      description: "Hands-on workshop on AI and machine learning.",
-      organizer: "AI Society",
-      createdAt: new Date("2023-09-29T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2081",
-      title: "Robotics Competition",
-      category: "Technical",
-      date: new Date("2023-11-10T00:00:00.000Z"),
-      description: "Compete with your robots in various challenges.",
-      organizer: "Robotics Club",
-      createdAt: new Date("2023-09-30T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2082",
-      title: "Annual Cultural Fest",
-      category: "Cultural",
-      date: new Date("2023-11-15T00:00:00.000Z"),
-      description: "Celebrating culture with performances and stalls.",
-      organizer: "Cultural Committee",
-      createdAt: new Date("2023-10-01T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2083",
-      title: "Dance Competition",
-      category: "Cultural",
-      date: new Date("2023-11-18T00:00:00.000Z"),
-      description: "Show your dance skills and compete with others.",
-      organizer: "Dance Society",
-      createdAt: new Date("2023-10-02T15:53:47.364Z"),
-      __v: 0,
-    },
-    {
-      _id: "671bbf0b05c6dbc92d4b2084",
-      title: "Music Night",
-      category: "Cultural",
-      date: new Date("2023-11-22T00:00:00.000Z"),
-      description: "Enjoy live music performances from local artists.",
-      organizer: "Music Club",
-      createdAt: new Date("2023-10-03T15:53:47.364Z"),
-      __v: 0,
-    },
-  ];
+  // const events = [
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2076",
+  //     title: "Football Match",
+  //     category: "Sports",
+  //     date: new Date("2023-10-15T00:00:00.000Z"), // Date in ISO format
+  //     description: "Exciting football match between top teams.",
+  //     organizer: "Sports Committee",
+  //     createdAt: new Date("2023-09-25T15:53:47.364Z"), // Date in ISO format
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2077",
+  //     title: "Basketball Tournament",
+  //     category: "Sports",
+  //     date: new Date("2023-10-20T00:00:00.000Z"),
+  //     description: "Annual basketball tournament with local teams.",
+  //     organizer: "Sports Committee",
+  //     createdAt: new Date("2023-09-26T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2078",
+  //     title: "Cricket League",
+  //     category: "Sports",
+  //     date: new Date("2023-10-25T00:00:00.000Z"),
+  //     description: "Cricket league featuring regional teams.",
+  //     organizer: "Cricket Association",
+  //     createdAt: new Date("2023-09-27T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2079",
+  //     title: "Hackathon",
+  //     category: "Technical",
+  //     date: new Date("2023-11-01T00:00:00.000Z"),
+  //     description: "24-hour hackathon to create innovative solutions.",
+  //     organizer: "Tech Club",
+  //     createdAt: new Date("2023-09-28T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2080",
+  //     title: "Workshop on AI",
+  //     category: "Technical",
+  //     date: new Date("2023-11-05T00:00:00.000Z"),
+  //     description: "Hands-on workshop on AI and machine learning.",
+  //     organizer: "AI Society",
+  //     createdAt: new Date("2023-09-29T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2081",
+  //     title: "Robotics Competition",
+  //     category: "Technical",
+  //     date: new Date("2023-11-10T00:00:00.000Z"),
+  //     description: "Compete with your robots in various challenges.",
+  //     organizer: "Robotics Club",
+  //     createdAt: new Date("2023-09-30T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2082",
+  //     title: "Annual Cultural Fest",
+  //     category: "Cultural",
+  //     date: new Date("2023-11-15T00:00:00.000Z"),
+  //     description: "Celebrating culture with performances and stalls.",
+  //     organizer: "Cultural Committee",
+  //     createdAt: new Date("2023-10-01T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2083",
+  //     title: "Dance Competition",
+  //     category: "Cultural",
+  //     date: new Date("2023-11-18T00:00:00.000Z"),
+  //     description: "Show your dance skills and compete with others.",
+  //     organizer: "Dance Society",
+  //     createdAt: new Date("2023-10-02T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  //   {
+  //     _id: "671bbf0b05c6dbc92d4b2084",
+  //     title: "Music Night",
+  //     category: "Cultural",
+  //     date: new Date("2023-11-22T00:00:00.000Z"),
+  //     description: "Enjoy live music performances from local artists.",
+  //     organizer: "Music Club",
+  //     createdAt: new Date("2023-10-03T15:53:47.364Z"),
+  //     __v: 0,
+  //   },
+  // ];
 
-  const comments = [
-    {
-      eventId: "671bbf0b05c6dbc92d4b2076",
-      student: "Alice",
-      comment: "Excited for the match!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2076",
-      student: "Bob",
-      comment: "Let's win this!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2077",
-      student: "Charlie",
-      comment: "Can't wait to see the teams play!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2077",
-      student: "Dana",
-      comment: "Go team!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2078",
-      student: "Eve",
-      comment: "Who will be the champion?",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2078",
-      student: "Frank",
-      comment: "I hope it doesn't rain!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2079",
-      student: "Grace",
-      comment: "Ready to innovate!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2079",
-      student: "Heidi",
-      comment: "Looking forward to the challenges!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2080",
-      student: "Ivan",
-      comment: "AI is the future!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2080",
-      student: "Judy",
-      comment: "Excited to learn new skills!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2081",
-      student: "Mallory",
-      comment: "Hope to see some cool robots!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2081",
-      student: "Niaj",
-      comment: "Let's build something amazing!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2082",
-      student: "Olivia",
-      comment: "Can't wait for the performances!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2082",
-      student: "Peggy",
-      comment: "It's going to be a blast!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2083",
-      student: "Quentin",
-      comment: "Dance like no one is watching!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2083",
-      student: "Rupert",
-      comment: "I'm rooting for my friend!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2084",
-      student: "Sybil",
-      comment: "Looking forward to the live music!",
-    },
-    {
-      eventId: "671bbf0b05c6dbc92d4b2084",
-      student: "Trent",
-      comment: "Music brings us all together!",
-    },
-  ];
+  // const comments = [
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2076",
+  //     student: "Alice",
+  //     eventName: "New Event",
+  //     comment: "Excited for the match!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2076",
+  //     student: "Bob",
+  //     eventName: "New Event",
+  //     comment: "Let's win this!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2077",
+  //     student: "Charlie",
+  //     eventName: "New Event",
+  //     comment: "Can't wait to see the teams play!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2077",
+  //     student: "Dana",
+  //     eventName: "New Event",
+  //     comment: "Go team!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2078",
+  //     student: "Eve",
+  //     eventName: "New Event",
+  //     comment: "Who will be the champion?",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2078",
+  //     student: "Frank",
+  //     eventName: "New Event",
+  //     comment: "I hope it doesn't rain!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2079",
+  //     student: "Grace",
+  //     eventName: "New Event",
+  //     comment: "Ready to innovate!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2079",
+  //     student: "Heidi",
+  //     eventName: "New Event",
+  //     comment: "Looking forward to the challenges!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2080",
+  //     student: "Ivan",
+  //     eventName: "New Event",
+  //     comment: "AI is the future!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2080",
+  //     student: "Judy",
+  //     eventName: "New Event",
+  //     comment: "Excited to learn new skills!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2081",
+  //     student: "Mallory",
+  //     eventName: "New Event",
+  //     comment: "Hope to see some cool robots!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2081",
+  //     student: "Niaj",
+  //     eventName: "New Event",
+  //     comment: "Let's build something amazing!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2082",
+  //     student: "Olivia",
+  //     eventName: "New Event",
+  //     comment: "Can't wait for the performances!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2082",
+  //     student: "Peggy",
+  //     eventName: "New Event",
+  //     comment: "It's going to be a blast!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2083",
+  //     student: "Quentin",
+  //     eventName: "New Event",
+  //     comment: "Dance like no one is watching!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2083",
+  //     student: "Rupert",
+  //     eventName: "New Event",
+  //     comment: "I'm rooting for my friend!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2084",
+  //     student: "Sybil",
+  //     eventName: "New Event",
+  //     comment: "Looking forward to the live music!",
+  //   },
+  //   {
+  //     eventId: "671bbf0b05c6dbc92d4b2084",
+  //     student: "Trent",
+  //     eventName: "New Event",
+  //     comment: "Music brings us all together!",
+  //   },
+  // ];
 
   const [newEvent, setNewEvent] = useState({
     _id: "",
@@ -226,10 +251,18 @@ const EventManagement: React.FC = () => {
     date: "",
     description: "",
     organizer: "",
+    likes: 0,
+    comments: [],
   });
+
+  const [isEventOpen, setIsEventOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event>();
 
   useEffect(() => {
     fetchEvents();
+
+    console.log(comments);
+
     const token = localStorage.getItem("token");
     if (token) {
       setCurrentUser({
@@ -252,10 +285,117 @@ const EventManagement: React.FC = () => {
         },
       });
       const data = await response.json();
-      // setEvents(data);
+
+      if (response.ok) {
+        console.log(data);
+        setEvents(data);
+
+        // Collect all comments from each event into a single array
+        const allComments = data.reduce((acc: any[], event: any) => {
+          const commentsWithEventDetails = event.comments.map(
+            (comment: any) => ({
+              ...comment,
+              eventId: event._id, // Add event ID
+              eventName: event.title, // Add event name
+            })
+          );
+          return [...acc, ...commentsWithEventDetails];
+        }, []);
+
+        setComments(allComments);
+      } else {
+        console.log("Error while getting Events");
+      }
     } catch (error) {
       toast.error("Failed to fetch events");
     }
+  };
+
+  // Fetch event data for Events by Category chart
+  const fetchEventsByCategory = async () => {
+    const response = await fetch(`${API_URL}/events`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  };
+
+  const EventsByCategoryChart = () => {
+    const categoryCount = events.reduce((acc, event) => {
+      acc[event.category] = (acc[event.category] || 0) + 1;
+      return acc;
+    }, {});
+
+    const data = {
+      labels: Object.keys(categoryCount),
+      datasets: [
+        {
+          label: "Events by Category",
+          data: Object.values(categoryCount),
+          backgroundColor: "#36A2EB",
+        },
+      ],
+    };
+
+    return <Bar data={data} />;
+  };
+
+  const RegistrationsOverTimeChart = () => {
+    const registrationDates = events.flatMap((event) =>
+      event.registrations.map((reg: { date: string | number | Date }) =>
+        new Date(reg.date).toLocaleDateString()
+      )
+    );
+
+    const dateCounts = registrationDates.reduce((acc, date) => {
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+
+    const data = {
+      labels: Object.keys(dateCounts),
+      datasets: [
+        {
+          label: "Registrations Over Time",
+          data: Object.values(dateCounts),
+          backgroundColor: "#FF6384",
+          borderColor: "#FF6384",
+        },
+      ],
+    };
+
+    return <Line data={data} />;
+  };
+
+  const TopLikedEventsChart = () => {
+    const data = {
+      labels: events.map((event) => event.title),
+      datasets: [
+        {
+          label: "Likes",
+          data: events.map((event) => event.likes),
+          backgroundColor: "#FFCE56",
+        },
+      ],
+    };
+
+    const options = {
+      indexAxis: "y",
+      responsive: true,
+      scales: {
+        x: {
+          beginAtZero: true,
+          type: "linear", // Make sure to specify the type if needed
+        },
+        y: {
+          type: "category", // Ensure the scale is registered as 'category'
+        },
+      },
+    };
+
+    return <Bar data={data} options={options} />;
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -285,8 +425,14 @@ const EventManagement: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("user");
     setCurrentUser(null);
     navigate("/login");
+  };
+
+  const handleOpenDialog = (event: any) => {
+    setIsEventOpen(true);
+    setSelectedEvent(event);
   };
 
   const handleAddEvent = async () => {
@@ -319,6 +465,8 @@ const EventManagement: React.FC = () => {
         date: "",
         description: "",
         organizer: "",
+        likes: 0,
+        comments: [],
       });
 
       toast.success("Event added successfully");
@@ -362,6 +510,8 @@ const EventManagement: React.FC = () => {
           date: "",
           description: "",
           organizer: "",
+          likes: 0,
+          comments: [],
         });
 
         toast.success("Event updated successfully");
@@ -414,8 +564,8 @@ const EventManagement: React.FC = () => {
       <Toaster /> {/* Add the Toaster component here */}
       <div className="flex flex-col h-screen w-screen overflow-x-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6 px-8 my-4">
-          <h1 className="text-2xl font-bold">Upcoming Events</h1>
+        <div className="flex justify-between items-center mb-6 px-4 my-4 border-b-2 pb-4">
+          <h2 className="text-2xl font-bold">Campus Navigator</h2>
           <div className="flex gap-2">
             {currentUser ? (
               <>
@@ -431,48 +581,116 @@ const EventManagement: React.FC = () => {
 
         <div className="flex flex-row w-full">
           {/* Events Section */}
-          <div className="events-section flex flex-col items-end p-8">
-            <Button
-              className="flex items-center gap-2"
-              onClick={() => setIsOpen(true)}
-            >
-              <Plus size={16} />
-              Add Event
-            </Button>
+          <div className="events-section flex flex-col w-2/3 items-start p-8">
+            <div className="flex flex-row justify-between w-full">
+              <div className="flex flex-col w-full mb-8">
+                <h1 className="text-2xl font-semibold w-full mb-2">Analytics</h1>
+                <div className="flex flex-row space-y-4 p-4">
+                  {" "}
+                  {/* Adds space between charts */}
+                  <div className="w-full">
+                    <EventsByCategoryChart />
+                  </div>
+                  <div className="w-full">
+                    <RegistrationsOverTimeChart />
+                  </div>
+                  <div className="w-full">
+                    <TopLikedEventsChart />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between w-full">
+              <h1 className="text-2xl font-semibold w-full">Upcoming Events</h1>
+              <div className="flex flex-col items-end">
+                <Button
+                  className="flex items-center gap-2"
+                  onClick={() => setIsOpen(true)}
+                >
+                  <Plus size={16} />
+                  Add Event
+                </Button>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
               {events.map((event) => (
-                <Card key={event._id} className="shadow-sm">
-                  <CardHeader>
-                    <CardTitle className={getCategoryColor(event.category)}>
-                      {event.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>
-                      <strong>Category:</strong> {event.category}
-                    </p>
-                    <p>
-                      <strong>Date:</strong>{" "}
-                      {new Date(event.date).toLocaleDateString()}
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {event.description}
-                    </p>
-                    <p>
-                      <strong>Organizer:</strong> {event.organizer}
-                    </p>
-                    <div className="flex gap-2 mt-4">
+                <Card
+                  key={event._id}
+                  className="shadow-md rounded-lg overflow-hidden"
+                >
+                  <CardTitle
+                    className={
+                      "p-2 pl-4 rounded-t-md text-lg font-semibold " +
+                      getCategoryColor(event.category)
+                    }
+                  >
+                    {event.title}
+                  </CardTitle>
+                  <CardContent className="p-4">
+                    <div className="space-y-2">
+                      <p>
+                        <strong>Category:</strong> {event.category}
+                      </p>
+                      <p>
+                        <strong>Date:</strong>{" "}
+                        {new Date(event.date).toLocaleDateString()}
+                      </p>
+                      <p>
+                        <strong>Description:</strong> {event.description}
+                      </p>
+                      <p>
+                        <strong>Organizer:</strong> {event.organizer}
+                      </p>
+                      <p>
+                        <strong>Registrations:</strong>{" "}
+                        {event.registrations.length} people
+                      </p>
+
+                      <div className="flex justify-end text-sm text-gray-500 mt-2 font-semibold">
+                        {event.comments?.length || 0} Comments |{" "}
+                        {event.likes || 0} Likes
+                      </div>
+                    </div>
+
+                    {/* Comments Preview Section */}
+                    {event.comments
+                      .slice(0, 2)
+                      .map((comment: Comment, index: React.Key) => (
+                        <div
+                          key={index}
+                          className="mt-3 p-2 bg-gray-100 rounded-md"
+                        >
+                          <p className="text-sm">
+                            <strong>{comment.author}</strong>: {comment.text}
+                          </p>
+                        </div>
+                      ))}
+                    {event.comments.length > 2 && (
+                      <Button
+                        className="mt-2 w-full text-sm text-blue-600 bg-white shadow-md mt-4"
+                        onClick={() => handleOpenDialog(event)}
+                      >
+                        View all comments
+                      </Button>
+                    )}
+
+                    {/* Edit and Delete Buttons */}
+                    <div className="flex w-full px-2 mt-4 space-x-2">
                       <Button
                         onClick={() => {
-                          // setNewEvent(event);
-                          // setIsEditMode(true);
-                          // setIsOpen(true);
+                          setNewEvent(event);
+                          setIsEditMode(true);
+                          setIsOpen(true);
                         }}
+                        className="w-full py-2"
                       >
                         Edit
                       </Button>
                       <Button
                         variant="destructive"
+                        className="w-full py-2"
                         onClick={() => handleDeleteEvent(event._id)}
                       >
                         Delete
@@ -485,17 +703,20 @@ const EventManagement: React.FC = () => {
           </div>
 
           {/* Comments Section */}
-          <div className="mt-8 w-1/3">
-            <h2 className="text-xl font-semibold mb-4">Student Comments</h2>
+          <div className="mt-8 w-1/3 px-4">
+            <h2 className="text-2xl font-semibold mb-4">All Comments</h2>
             <div className="grid grid-cols-1 gap-4 overflow-y-scroll no-scrollbar h-[85vh]">
               {comments.length > 0 ? (
                 comments.map((comment, index) => (
                   <Card key={index} className="shadow-sm">
                     <CardHeader>
-                      <CardTitle>{comment.student}</CardTitle>
+                      <div className="flex flex-row items-center w-full gap-x-2">
+                        <CardTitle>{comment.author}</CardTitle>
+                        <p> - {comment.eventName}</p>
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <p>{comment.comment}</p>
+                      <p>{comment.text}</p>
                     </CardContent>
                   </Card>
                 ))
@@ -539,6 +760,7 @@ const EventManagement: React.FC = () => {
             </form>
           </DialogContent>
         </Dialog>
+
         {/* Add/Edit Event Dialog */}
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent>
@@ -556,7 +778,7 @@ const EventManagement: React.FC = () => {
                 }
               />
               <select
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border rounded-md bg-white"
                 value={newEvent.category}
                 onChange={(e) =>
                   setNewEvent({ ...newEvent, category: e.target.value })
@@ -598,6 +820,73 @@ const EventManagement: React.FC = () => {
               >
                 {isEditMode ? "Update Event" : "Add Event"}
               </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={isEventOpen} onOpenChange={setIsEventOpen}>
+          <DialogContent className="w-3/4 max-w-screen-lg">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-semibold">
+                {selectedEvent?.title}
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="space-y-6 p-4">
+              {/* Event Details */}
+              <div className="text-lg space-y-2">
+                <p>
+                  <strong>Category:</strong> {selectedEvent?.category}
+                </p>
+                <p>
+                  <strong>Date:</strong>{" "}
+                  {selectedEvent?.date
+                    ? new Date(selectedEvent.date).toLocaleDateString()
+                    : "Date not available"}
+                </p>
+                <p>
+                  <strong>Organizer:</strong> {selectedEvent?.organizer}
+                </p>
+                <p>
+                  <strong>Description:</strong> {selectedEvent?.description}
+                </p>
+                <p>
+                  <strong>Registrations:</strong>{" "}
+                  {selectedEvent?.registrations.length} people
+                </p>
+                <div className="flex justify-end text-md mt-2 font-semibold">
+                  {selectedEvent?.comments?.length || 0} Comments |{" "}
+                  {selectedEvent?.likes || 0} Likes
+                </div>
+              </div>
+
+              {/* Comments Section */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">Comments</h3>
+                <div className="space-y-3 max-h-64 overflow-y-auto">
+                  {selectedEvent?.comments &&
+                  selectedEvent.comments.length > 0 ? (
+                    selectedEvent.comments.map((comment, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-100 p-3 rounded-md shadow-sm"
+                      >
+                        <p>
+                          <strong>{comment.author}</strong>
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {new Date(comment.createdAt).toLocaleString()}
+                        </p>
+                        <p className="mt-1">{comment.text}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 text-sm">
+                      No comments available for this event.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
