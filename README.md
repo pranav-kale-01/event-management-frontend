@@ -1,12 +1,10 @@
-
-
 # Campus Navigator Frontend
 
    This repository contains the frontend code for the Campus Navigator application built with Vite and Shadcn UI components.
 
    ## Demo Video: 
-
-   [Uploading 2024-10-30 03-45-32.mp4…](https://github.com/user-attachments/assets/7a46bd9b-ce9d-4412-904b-1dac9392b2b6)
+   
+   https://drive.google.com/drive/u/1/my-drive
 
 ## Requirements
    Node.js (version 14 or higher)
