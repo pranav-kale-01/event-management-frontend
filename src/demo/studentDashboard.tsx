@@ -7,6 +7,7 @@ import IndoorNavigationCarousel from "../components/IndoorNavigationCarousel";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import ImportantLinks from "@/components/ImportantLinks";
 import {
   Dialog,
   DialogContent,
@@ -74,7 +75,9 @@ const StudentDashboard = () => {
     setSelectedEvent(selectedEvent);
 
     setHasLiked(currentUser?.likedEvents.indexOf(selectedEvent._id)) ?? -1;
-    setIsRegistered( currentUser?.registeredEvents.indexOf( selectedEvent._id) !== -1 );
+    setIsRegistered(
+      currentUser?.registeredEvents.indexOf(selectedEvent._id) !== -1
+    );
   };
 
   const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -214,8 +217,8 @@ const StudentDashboard = () => {
 
   const handleRegister = async () => {
     if (selectedEvent && currentUser && !isRegistered) {
-      currentUser.registeredEvents.push( selectedEvent._id );
-      selectedEvent.registrations.push( currentUser._id );
+      currentUser.registeredEvents.push(selectedEvent._id);
+      selectedEvent.registrations.push(currentUser._id);
 
       try {
         const response = await fetch(
@@ -232,24 +235,21 @@ const StudentDashboard = () => {
 
         if (response.ok) {
           setIsRegistered(true); // Prevent further registrations
-        
+
           // Update currentUser's liked events
-          await fetch(
-            `${API_URL}/auth/edit_user/${currentUser?._id}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(currentUser),
-            }
-          );
+          await fetch(`${API_URL}/auth/edit_user/${currentUser?._id}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(currentUser),
+          });
         } else {
           console.error("Failed to register for event.");
         }
       } catch (error) {
-        setIsRegistered( false );
+        setIsRegistered(false);
         currentUser?.registeredEvents.pop();
         console.error("Error registering for event:", error);
       }
@@ -267,7 +267,7 @@ const StudentDashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-row flex-1 p-6">
+      <main className="flex flex-row flex-1 p-6 h-fit">
         {/* Events Section */}
         <div className="flex flex-col stats-section w-full">
           <div className="text-black rounded-lg p-4 mb-6 shadow-lg bg-white">
@@ -279,10 +279,10 @@ const StudentDashboard = () => {
                   key={category}
                   className="bg-white text-black rounded-lg shadow-md p-4"
                 >
-                  <h3 className="font-bold text-2xl">
+                  <h3 className="font-bold text-2xl ">
                     {category.charAt(0).toUpperCase() + category.slice(1)}
                   </h3>
-                  <div>
+                  <div className=" overflow-y-scroll max-h-[50vh]">
                     {events.map((event) => (
                       <div
                         key={event._id}
@@ -316,29 +316,34 @@ const StudentDashboard = () => {
           </div>
 
           {/* Campus Map and Indoor Navigation Section */}
-          <div className="flex flex-col md:flex-row gap-6 mb-6 h-full">
+          <div className="flex flex-col md:flex-row gap-6 mb-6 h-fit">
             <div className="bg-white rounded-lg shadow-lg flex-1">
               <h2 className="top-0 z-1 text-2xl font-semibold p-4">
                 Campus Map
               </h2>
-              <div className="z-10 w-full">
+              <div className="z-10 w-full p-2 rounded-lg">
                 <GoogleMap />
               </div>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg flex-1">
               <h2 className="text-2xl font-semibold p-4">Indoor Navigation</h2>
-              <div className="h-64">
+              <div className="h-64 w-full p-2">
                 <IndoorNavigationCarousel />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex w-1/4">
+        <div className="flex flex-col w-1/3 h-screen">
+          {/* Important Links */}
+          <div className="bg-white w-full mx-4 rounded-lg shadow-lg pb-12 p-4 mb-4">
+            <ImportantLinks/>
+          </div>
+
           {/* Chatbot Section */}
-          <div className="bg-white w-full mx-4 rounded-lg shadow-lg p-4">
-            <h2 className="text-2xl font-semibold mb-2">Chatbot</h2>
+          <div className="bg-white w-full mx-4 rounded-lg shadow-lg pb-12 p-4 h-2/3 ">
+            <h2 className="text-2xl font-semibold">Chat with Us</h2>
             <Chatbot />
           </div>
         </div>

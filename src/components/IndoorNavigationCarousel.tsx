@@ -48,38 +48,42 @@ const IndoorNavigationCarousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-xl mx-auto">
-      <Carousel className="w-full flex flex-row justify-center">
-        <CarouselPrevious className="" />
+    <div className="mx-auto border px-2 w-fit">
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="flex flex-row justify-center h-fit"
+      >
+        <CarouselPrevious className="absolute inset-y-0 left-0 my-auto z-10 translate-y-2 aspect-square py-6" />
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index}>
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex justify-center items-center p-0">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="w-full h-auto max-h-[22rem] object-contain rounded-lg shadow-md"
-                      onClick={() => handleImageClick(image.src)}
-                    />
-                  </CardContent>
-                </Card>
+              <div
+                className="flex flex-col items-center p-1 h-full w-full cursor-pointer"
+                onClick={() => handleImageClick(image.src)}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className=" max-h-[22rem] object-contain"
+                />
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselNext className="" />
+        <CarouselNext className="absolute inset-y-0 right-0 my-auto z-10 translate-y-2 aspect-square py-6" />
       </Carousel>
 
       {/* Dialog for displaying the full-screen image */}
       <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
-        <DialogContent className="p-0 m-24">
-          <div className="flex justify-center items-center p-4">
-            <img 
-              src={selectedImage || ''} 
-              alt="Full Screen" 
-              className="max-w-full max-h-full object-contain" 
+        <DialogContent className="flex justify-center items-center p-0 m-auto w-screen h-screen max-w-[90vw]">
+          <div className="flex justify-center items-center w-full h-full">
+            <img
+              src={selectedImage || ""}
+              alt="Full Screen"
+              className="max-w-full max-h-full object-contain"
             />
           </div>
         </DialogContent>
