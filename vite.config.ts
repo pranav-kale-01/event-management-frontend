@@ -9,9 +9,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  define: {
-    "process.env": process.env,
-    REACT_APP_API_URL: process.env.REACT_APP_API_URL,
-    REACT_APP_CLIENT_ID: process.env.REACT_APP_CLIENT_ID
-  },
 })
