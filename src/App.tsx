@@ -1,7 +1,5 @@
-// App.tsx or App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import NotificationSystem from './demo/notification-system';
 import StudentDashboard from './demo/studentDashboard';
 import LoginForm from './demo/login-form';
 import ChatHistory from './demo/chat-history-component';
@@ -18,8 +16,9 @@ const App: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-screen">
         {/* Define your routes */}
         <Routes>
-          <Route path="/" element={<RegisterForm />} />
+          <Route path="/" element={<LoginForm />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
           <Route path="/history" element={<ChatHistory userId='1'/>} />
           <Route path="/campus-nav" element={<CampusNavigator />} />
           <Route path="/indoor-nav" element={<IndoorNavigation />} />
