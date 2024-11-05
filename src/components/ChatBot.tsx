@@ -7,10 +7,10 @@ import ChatBubble from "./ui/chat-bubble";
 var userMessages: any[] = [];
 
 const Chatbot: React.FC = () => {
-  const clientId = "49131b7f-44ff-4453-bb38-0b5f3c056f98";
+  const clientId = process.env.CLIENT_ID;
 
   const token = localStorage.getItem("token");
-  const API_URL = "http://localhost:3001/api";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const [client] = useState(getClient({ clientId }));
   const [chatUI, setChatUI] = useState<any[]>([]);

@@ -8,7 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ImportantLinks from "@/components/ImportantLinks";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const VisitorDashboard = () => {
   const navigate = useNavigate();

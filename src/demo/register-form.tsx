@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useNotification } from "./notification-context";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const RegisterForm = () => {
   const navigate = useNavigate();
