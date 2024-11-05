@@ -176,20 +176,6 @@ const EventManagement: React.FC = () => {
       ],
     };
 
-    const options = {
-      indexAxis: "y",
-      responsive: true,
-      scales: {
-        x: {
-          beginAtZero: true,
-          type: "linear", // Make sure to specify the type if needed
-        },
-        y: {
-          type: "category", // Ensure the scale is registered as 'category'
-        },
-      },
-    };
-
     return <Bar data={data}  />;
   };
 

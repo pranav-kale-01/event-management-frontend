@@ -1,5 +1,3 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card"; // Ensure correct imports
 import {
   Carousel,
   CarouselContent,
@@ -7,8 +5,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-// Import images
 import groundImg from "../assets/floormap/ground.jpg";
 import upperGroundImg from "../assets/floormap/upper_ground.jpg";
 import lowerGroundImg from "../assets/floormap/lower_ground.jpg";
@@ -19,9 +15,6 @@ import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 
 // Array of image sources

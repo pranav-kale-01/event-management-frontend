@@ -1,9 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { ArrowRight, AlertCircle } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
 import { useNotification } from "./notification-context";
 import { useNavigate } from "react-router-dom";
 
@@ -19,15 +14,7 @@ const LoginForm = () => {
     userType: "",
   });
 
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-    userType: "",
-  });
   const [error, setError] = useState("");
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,29 +35,16 @@ const LoginForm = () => {
       ...prev,
       [name]: value,
     }));
-    setErrors((prev) => ({
-      ...prev,
-      [name]: "",
-    }));
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setSubmitError("");
 
     // Validate all fields
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
 
-    setErrors({
-      email: emailError,
-      password: passwordError,
-      userType: "",
-    });
-
     if (emailError || passwordError) return;
-
-    setIsSubmitting(true);
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -103,7 +77,7 @@ const LoginForm = () => {
         const token = data.token;
         const user = data.user;
 
-        localStorage.setItem("token", token); 
+        localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
 
         // Redirect to appropriate dashboard based on userType
@@ -116,11 +90,7 @@ const LoginForm = () => {
         }
       }
     } catch (error: any) {
-      setSubmitError(error.message || "Login failed. Please try again.");
-
       setError("An error occurred while logging in.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -128,7 +98,7 @@ const LoginForm = () => {
     const userData = localStorage.getItem("user");
 
     if (userData != null) {
-      const user = JSON.parse( userData );
+      const user = JSON.parse(userData);
 
       if (user.userType === "Student") {
         navigate("/studentDashboard");

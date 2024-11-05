@@ -33,12 +33,6 @@ const RegisterForm = () => {
     return "";
   };
 
-  const validatePassword = (password: string) => {
-    if (!password) return "Password is required";
-    if (password.length < 8) return "Password must be at least 8 characters";
-    return "";
-  };
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -58,7 +52,6 @@ const RegisterForm = () => {
 
     // Validate all fields
     const emailError = validateEmail(formData.email);
-    // const passwordError = validatePassword(formData.password);
     const userType = formData.userType;
 
     setErrors({

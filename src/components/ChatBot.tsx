@@ -13,7 +13,7 @@ const Chatbot: React.FC = () => {
   const API_URL = process.env.REACT_APP_API_URL;
 
   const [client] = useState(getClient({ clientId }));
-  const [chatUI, setChatUI] = useState<any[]>([]);
+  const [_, setChatUI] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState("");
   const messageListenerInitialized = useRef(false); // Ref to track listener initialization
 
