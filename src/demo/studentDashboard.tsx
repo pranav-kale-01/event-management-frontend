@@ -45,7 +45,7 @@ const StudentDashboard = () => {
 
   const getCurentUser = async (id: string) => {
     try {
-      const response = await fetch(`${API_URL}/auth/user/${id}`, {
+      const response = await fetch(`${API_URL}/api/auth/user/${id}`, {
         method: "GET", // Use the appropriate HTTP method
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const StudentDashboard = () => {
     if (selectedEvent && comment.trim()) {
       try {
         // Send comment data to backend
-        const response = await fetch(`${API_URL}/events/addComment`, {
+        const response = await fetch(`${API_URL}/api/events/addComment`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -118,7 +118,7 @@ const StudentDashboard = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${API_URL}/events`, {
+      const response = await fetch(`${API_URL}/api/events`, {
         method: "GET", // Use the appropriate HTTP method
         headers: {
           "Content-Type": "application/json",
@@ -167,7 +167,7 @@ const StudentDashboard = () => {
         }
 
         const response = await fetch(
-          `${API_URL}/events/edit_event/${selectedEvent._id}`,
+          `${API_URL}/api/events/edit_event/${selectedEvent._id}`,
           {
             method: "PUT",
             headers: {
@@ -181,7 +181,7 @@ const StudentDashboard = () => {
         if (response.ok) {
           // Update currentUser's liked events
           const userResponse = await fetch(
-            `${API_URL}/auth/edit_user/${currentUser?._id}`,
+            `${API_URL}/api/auth/edit_user/${currentUser?._id}`,
             {
               method: "POST",
               headers: {
@@ -222,7 +222,7 @@ const StudentDashboard = () => {
 
       try {
         const response = await fetch(
-          `${API_URL}/events/edit_event/${selectedEvent._id}`,
+          `${API_URL}/api/events/edit_event/${selectedEvent._id}`,
           {
             method: "PUT",
             headers: {
@@ -237,7 +237,7 @@ const StudentDashboard = () => {
           setIsRegistered(true); // Prevent further registrations
 
           // Update currentUser's liked events
-          await fetch(`${API_URL}/auth/edit_user/${currentUser?._id}`, {
+          await fetch(`${API_URL}/api/auth/edit_user/${currentUser?._id}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

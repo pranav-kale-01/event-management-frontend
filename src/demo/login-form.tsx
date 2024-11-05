@@ -47,7 +47,7 @@ const LoginForm = () => {
     if (emailError || passwordError) return;
 
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const LoginForm = () => {
       }
 
       // Example of fetching protected data after login
-      const protectedResponse = await fetch(`${API_URL}/protected`, {
+      const protectedResponse = await fetch(`${API_URL}/api/protected`, {
         headers: {
           Authorization: `Bearer ${data.token}`,
         },

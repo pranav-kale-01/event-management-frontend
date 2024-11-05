@@ -62,7 +62,7 @@ const RegisterForm = () => {
     if (emailError) return;
 
     try {
-      const response = await fetch(`${API_URL}/auth/otp/sendOtp`, {
+      const response = await fetch(`${API_URL}/api/auth/otp/sendOtp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -65,7 +65,7 @@ const Chatbot: React.FC = () => {
       );
       console.log("User ID:", user);
 
-      const response = await fetch(`${API_URL}/chats/getChat/${user._id}`, {
+      const response = await fetch(`${API_URL}/api/chats/getChat/${user._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -101,7 +101,7 @@ const Chatbot: React.FC = () => {
       );
       console.log("User ID:", user);
 
-      const response = await fetch(`${API_URL}/chats/updateChats/${user._id}`, {
+      const response = await fetch(`${API_URL}/api/chats/updateChats/${user._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -72,7 +72,7 @@ const EventManagement: React.FC = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${API_URL}/events`, {
+      const response = await fetch(`${API_URL}/api/events`, {
         method: "GET", // Use the appropriate HTTP method
         headers: {
           "Content-Type": "application/json",
@@ -182,7 +182,7 @@ const EventManagement: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/login`, {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
@@ -224,7 +224,7 @@ const EventManagement: React.FC = () => {
         return;
       }
 
-      const response = await fetch(`${API_URL}/events/add_event`, {
+      const response = await fetch(`${API_URL}/api/events/add_event`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -262,7 +262,7 @@ const EventManagement: React.FC = () => {
         console.log(newEvent);
 
         const response = await fetch(
-          `${API_URL}/events/edit_event/${eventId}`,
+          `${API_URL}/api/events/edit_event/${eventId}`,
           {
             method: "PUT",
             headers: {
@@ -306,7 +306,7 @@ const EventManagement: React.FC = () => {
     try {
       if (currentUser) {
         const response = await fetch(
-          `${API_URL}/events/delete_event/${eventId}`,
+          `${API_URL}/api/events/delete_event/${eventId}`,
           {
             method: "DELETE",
             headers: {
