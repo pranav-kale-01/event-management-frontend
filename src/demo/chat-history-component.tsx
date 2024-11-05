@@ -36,18 +36,6 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ userId }) => {
     localStorage.setItem(`chatHistory_${userId}`, JSON.stringify(messages));
   }, [messages, userId]);
 
-  // Add a new message to the history
-  const addMessage = (role: 'user' | 'bot', content: string) => {
-    const newMessage: Message = {
-      id: Date.now(),
-      role,
-      content,
-      timestamp: new Date().toISOString(),
-    };
-
-    setMessages(prevMessages => [...prevMessages, newMessage]);
-  };
-
   // Clear all messages for the current user
   const clearHistory = () => {
     setMessages([]);

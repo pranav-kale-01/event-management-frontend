@@ -1,37 +1,52 @@
 // NotificationContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import NotificationSystem from './notification-system';
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import NotificationSystem from "./notification-system";
 
 interface Notification {
   id: number;
   title: string;
   message: string;
-  type: 'success' | 'warning' | 'error' | 'info';
+  type: "success" | "warning" | "error" | "info";
 }
 
 interface NotificationContextType {
-  addNotification: (title: string, message: string, type?: 'success' | 'warning' | 'error' | 'info') => void;
+  addNotification: (
+    title: string,
+    message: string,
+    type?: "success" | "warning" | "error" | "info"
+  ) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined
+);
 
-export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = (title: string, message: string, type: 'success' | 'warning' | 'error' | 'info' = 'info') => {
+  const addNotification = (
+    title: string,
+    message: string,
+    type: "success" | "warning" | "error" | "info" = "info"
+  ) => {
     const id = Date.now();
-    setNotifications(prev => [...prev, { id, title, message, type }]);
+    setNotifications((prev) => [...prev, { id, title, message, type }]);
 
     setTimeout(() => {
-      setNotifications(prev => prev.filter(notif => notif.id !== id));
+      setNotifications((prev) => prev.filter((notif) => notif.id !== id));
     }, 5000);
   };
 
   return (
     <NotificationContext.Provider value={{ addNotification }}>
-      <NotificationSystem notifications={notifications} removeNotification={function (id: number): void {
-              throw new Error('Function not implemented.');
-          } } />
+      <NotificationSystem
+        notifications={notifications}
+        removeNotification={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
       {children}
     </NotificationContext.Provider>
   );
@@ -40,7 +55,9 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
+    throw new Error(
+      "useNotification must be used within a NotificationProvider"
+    );
   }
   return context;
 };
