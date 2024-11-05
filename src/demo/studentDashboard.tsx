@@ -22,7 +22,7 @@ import { User, Event, EventsData } from "../types";
 
 const StudentDashboard = () => {
   const token = localStorage.getItem("token");
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = import.meta.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
   const [isEventOpen, setIsEventOpen] = useState(false);

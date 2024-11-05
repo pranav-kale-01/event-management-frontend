@@ -16,7 +16,7 @@ import { Comment, Event } from "@/types";
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.REACT_APP_API_URL;
 
 // Register the necessary components
 Chart.register(...registerables);

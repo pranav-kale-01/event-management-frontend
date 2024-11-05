@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.REACT_APP_API_URL;
 
 const VerifyOtp: React.FC = () => {
   const [otp, setOtp] = useState('');
