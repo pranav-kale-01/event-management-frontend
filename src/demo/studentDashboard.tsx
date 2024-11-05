@@ -19,10 +19,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Input } from "@/components/ui/input";
 import { User, Event, EventsData } from "../types";
+import { API_URL } from "../constants";
+
 
 const StudentDashboard = () => {
   const token = localStorage.getItem("token");
-  const API_URL = import.meta.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
   const [isEventOpen, setIsEventOpen] = useState(false);

@@ -15,8 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { Comment, Event } from "@/types";
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { API_URL } from "../constants";
 
-const API_URL = import.meta.env.REACT_APP_API_URL;
 
 // Register the necessary components
 Chart.register(...registerables);

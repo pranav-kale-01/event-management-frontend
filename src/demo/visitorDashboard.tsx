@@ -7,8 +7,8 @@ import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 import ImportantLinks from "@/components/ImportantLinks";
+import { API_URL } from "../constants";
 
-const API_URL = import.meta.env.REACT_APP_API_URL;
 
 const VisitorDashboard = () => {
   const navigate = useNavigate();

@@ -3,15 +3,15 @@ import { getClient } from "@botpress/webchat";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import ChatBubble from "./ui/chat-bubble";
+import { API_URL, CLIENT_ID } from "../constants";
 
 var userMessages: any[] = [];
 
 const Chatbot: React.FC = () => {
-  const clientId = import.meta.env.REACT_APP_CLIENT_ID || "defaultClientId";
+  
+  const clientId = CLIENT_ID;
 
   const token = localStorage.getItem("token");
-  const API_URL = import.meta.env.REACT_APP_API_URL;
-
   const [client] = useState(getClient({ clientId }));
   const [_, setChatUI] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState("");

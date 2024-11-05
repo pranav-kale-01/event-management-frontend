@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNotification } from "./notification-context";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = import.meta.env.REACT_APP_API_URL;
+import { API_URL } from "../constants";
 
 const LoginForm = () => {
   const navigate = useNavigate();
