@@ -18,7 +18,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<LoginForm />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/registerPage" element={<RegisterForm />} />
           <Route path="/history" element={<ChatHistory userId='1'/>} />
           <Route path="/campus-nav" element={<CampusNavigator />} />
           <Route path="/indoor-nav" element={<IndoorNavigation />} />

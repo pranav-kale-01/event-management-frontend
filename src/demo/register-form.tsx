@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 import { API_URL } from "../constants";
 
-
 const RegisterForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotification();
@@ -84,53 +83,25 @@ const RegisterForm = () => {
         addNotification("Sucess", "Otp Sent Successfully!", "success");
 
         // Redirect to VerifyOtp page
-        navigate("/verifyOtp",  { state: { email: formData.email, userType: formData.userType } } );
+        navigate("/verifyOtp", {
+          state: { email: formData.email, userType: formData.userType },
+        });
       }
     } catch (error) {
       setSubmitError("An error occurred. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
-
-    // setIsSubmitting(true);
-
-    // try {
-    //   console.log("test");
-    //   const response = await fetch(`${API_URL}/auth/register`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   const data = await response.json();
-
-    //   console.log(response);
-    //   if (!response.ok) {
-    //     throw new Error(data.message || "Registration failed");
-    //   }
-
-    //   // Store token in localStorage
-    //   localStorage.setItem("token", data.token);
-
-    //   // Handle successful registration (e.g., redirect to login or dashboard)
-    //   addNotification("Sucess", "User Registered Successfully!", "success");
-
-    //   // Redirect to the login page
-    //   navigate("/login");
-    // } catch (error: any) {
-    //   setSubmitError(error.message || "Registration failed. Please try again.");
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="flex flex-row w-screen h-screen">
+      <div className="flex flex-col bg-white justify-center items-center w-1/3">
+        <h2 className="text-black text-4xl font-semibold mb-12">
+          Welcome to Campus Navigator!
+        </h2>
         {/* Form Section */}
-        <div className="w-full md:w-1/2 p-6 space-y-6">
+        <div className="w-full md:w-2/3 p-6 space-y-6 rounded-lg shadow-lg ">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold">Register</h1>
             <p className="text-gray-500">Enter your details to get started</p>
@@ -184,19 +155,16 @@ const RegisterForm = () => {
             </Button>
           </form>
         </div>
-
-        {/* Image Section */}
-        <div
-          className="hidden md:flex md:w-1/2 bg-cover bg-center"
-          style={{ backgroundImage: 'url("https://mgmjournalism.org/images/about/about-mgm/mgm-university-aurangabad-about.jpg")' }}
-        >
-          <div className="flex items-center justify-center h-full bg-gray-800 bg-opacity-50">
-            <h2 className="text-white text-4xl font-semibold">
-              Welcome to Campus Navigator!
-            </h2>
-          </div>
-        </div>
       </div>
+
+      {/* Image Section */}
+      <div
+        className="w-2/3 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            'url("https://mgmjournalism.org/images/about/about-mgm/mgm-university-aurangabad-about.jpg")',
+        }}
+      ></div>
     </div>
   );
 };
