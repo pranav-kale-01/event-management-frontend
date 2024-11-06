@@ -6,7 +6,7 @@ import ChatHistory from './demo/chat-history-component';
 import CampusNavigator from './demo/campus-navigator';
 import IndoorNavigation from './demo/indoor-navigation-frontend';
 import EventManagement from './demo/event-management-frontend';
-import RegisterForm from './demo/register-form';
+import SignupPage from './demo/signup-page';
 import VerifyOtp from './demo/verify-otp';
 import VisitorDashboard from './demo/visitorDashboard';
 
@@ -16,7 +16,7 @@ const App: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-screen">
         {/* Define your routes */}
         <Routes>
-          <Route path="/register-page" element={<RegisterForm />} />
+          <Route path="/signup-page" element={<SignupPage />} />
           <Route path="/" element={<LoginForm />} />
           <Route path="/history" element={<ChatHistory userId='1'/>} />
           <Route path="/campus-nav" element={<CampusNavigator />} />
