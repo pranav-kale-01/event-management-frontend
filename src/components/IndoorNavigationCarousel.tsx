@@ -53,6 +53,7 @@ const images = [
 
 const IndoorNavigationCarousel = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [floorPlanImage, setFloorPlanImage] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [sections, setSections] = useState<SectionedImages>(initialSectionedImages);
   const [firstImageClicked, setFirstImageClicked] = useState(false);
@@ -67,6 +68,7 @@ const IndoorNavigationCarousel = () => {
       setFirstImageClicked(true); // Mark that the first image has been clicked
     }
     setSelectedImage(src);
+    setFloorPlanImage(src);
     setIsDialogOpen(true);
   };
 
@@ -126,16 +128,13 @@ const IndoorNavigationCarousel = () => {
             <div className="mb-4">
               <h3 className="font-bold text-lg mb-2">Floor Plan</h3>
               <div className="grid grid-cols-2 gap-2">
-                {sections["Floor Plan"]?.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img.src}
-                    alt={img.alt}
-                    className="cursor-pointer object-cover"
-                    onClick={() => handleSectionImageClick(img.src)}
-                    loading="lazy" // Lazy loading enabled
-                  />
-                ))}
+                <img
+                  src={floorPlanImage || ""}
+                  alt={"Floor Plan"}
+                  className="cursor-pointer object-cover"
+                  onClick={() => handleSectionImageClick(floorPlanImage || "")}
+                  loading="lazy" // Lazy loading enabled
+                />
               </div>
             </div>
 
