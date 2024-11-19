@@ -4,7 +4,7 @@ import Chatbot from "../components/ChatBot"; // Assume you have this component f
 import IndoorNavigationCarousel from "../components/IndoorNavigationCarousel"; // Assume you have this component for the carousel
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-
+import CustomFooter from "@/components/customFooter";
 import { useNavigate } from "react-router-dom";
 import ImportantLinks from "@/components/ImportantLinks";
 import { API_URL } from "../constants";
@@ -166,13 +166,7 @@ const VisitorDashboard = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className=" text-black text-center p-4">
-        <p className="text-sm">
-          JNEC Aurangabad | Contact: 123-456-7890 | Address: Aurangabad,
-          Maharashtra, India
-        </p>
-      </footer>
+      <CustomFooter/>
     </div>
   );
 };

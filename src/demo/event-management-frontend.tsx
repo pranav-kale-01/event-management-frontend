@@ -16,7 +16,7 @@ import { Comment, Event } from "@/types";
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { API_URL } from "../constants";
-
+import CustomFooter from "../components/customFooter";
 
 // Register the necessary components
 Chart.register(...registerables);
@@ -176,7 +176,7 @@ const EventManagement: React.FC = () => {
       ],
     };
 
-    return <Bar data={data}  />;
+    return <Bar data={data} />;
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -510,13 +510,8 @@ const EventManagement: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className=" text-black text-center p-4">
-          <p className="text-sm">
-            JNEC Aurangabad | Contact: 123-456-7890 | Address: Aurangabad,
-            Maharashtra, India
-          </p>
-        </footer>
+        <CustomFooter/>
+
         {/* Login Dialog */}
         <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
           <DialogContent>
@@ -648,7 +643,7 @@ const EventManagement: React.FC = () => {
                 <h3 className="text-xl font-semibold">Comments</h3>
                 <div className="space-y-3 max-h-64 overflow-y-auto">
                   {selectedEvent?.comments &&
-                  selectedEvent.comments.length > 0 ? (
+                    selectedEvent.comments.length > 0 ? (
                     selectedEvent.comments.map((comment, index) => (
                       <div
                         key={index}

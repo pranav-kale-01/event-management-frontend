@@ -16,8 +16,8 @@ const App: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-screen">
         {/* Define your routes */}
         <Routes>
-          <Route path="/signup-page" element={<SignupPage />} />
           <Route path="/" element={<LoginForm />} />
+          <Route path="/signup-page" element={<SignupPage />} />
           <Route path="/history" element={<ChatHistory userId='1'/>} />
           <Route path="/campus-nav" element={<CampusNavigator />} />
           <Route path="/indoor-nav" element={<IndoorNavigation />} />

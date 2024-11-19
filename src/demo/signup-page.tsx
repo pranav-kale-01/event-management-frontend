@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { API_URL } from "../constants";
 
-const RegisterForm = () => {
+const SignupPage = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotification();
 
@@ -169,4 +169,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default SignupPage;

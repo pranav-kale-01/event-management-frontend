@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ImportantLinks from "@/components/ImportantLinks";
+import CustomFooter from "@/components/customFooter";
 import {
   Dialog,
   DialogContent,
@@ -351,12 +352,7 @@ const StudentDashboard = () => {
       </main>
 
       {/* Footer */}
-      <footer className="text-black text-center p-4">
-        <p className="text-sm">
-          JNEC Aurangabad | Contact: 123-456-7890 | Address: Aurangabad,
-          Maharashtra, India
-        </p>
-      </footer>
+      <CustomFooter/>
 
       <Dialog open={isEventOpen} onOpenChange={setIsEventOpen}>
         <DialogContent className="w-3/4 max-w-screen-lg">
