@@ -11,6 +11,7 @@ import lowerGroundImg from "../assets/floormap/lower_ground.jpg";
 import firstImg from "../assets/floormap/first.jpg";
 import secondImg from "../assets/floormap/second.jpg";
 import thirdImg from "../assets/floormap/third.jpg";
+import ZoomableImage from "./zoomableImage";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
@@ -115,13 +116,7 @@ const IndoorNavigationCarousel = () => {
       <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
         <DialogContent className="flex justify-between items-start p-4 m-auto w-screen h-screen max-w-[90vw]">
           {/* Selected Image */}
-          <div className="w-1/2 flex h-[100vh] justify-center items-center border-r px-2">
-            <img
-              src={selectedImage || ""}
-              alt="Full Screen"
-              className="max-w-full max-h-[100vh] object-contain"
-            />
-          </div>
+          <ZoomableImage selectedImage={selectedImage || ""} />
 
           {/* Sectioned Images */}
           <div className="w-1/2 pl-4 overflow-y-auto max-h-full">
@@ -139,10 +134,9 @@ const IndoorNavigationCarousel = () => {
             </div>
 
             {Object.keys(sections)
-              .filter((section) => section !== "Floor Plan")
               .map((sectionName, idx) => (
                 <div key={idx}>
-                  <h3 className="font-bold text-lg mb-2">{sectionName}</h3>
+                  <h3 className="font-bold text-lg my-2">{sectionName}</h3>
                   <div className="grid grid-cols-2 gap-2">
                     {sections[sectionName].map((img, idx) => (
                       <img
