@@ -50,12 +50,7 @@ const VerifyOtp: React.FC = () => {
     setIsSubmitting(true);
     setError(null);
 
-    console.log( email ); 
-    console.log( password );
-    console.log( userType );
-
     try {
-        console.log( JSON.stringify({ email, password, userType }))
       const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -65,6 +60,11 @@ const VerifyOtp: React.FC = () => {
       if (!response.ok) {
         throw new Error('Registration failed');
       }
+
+      const responseBody = await response.json();
+      
+      localStorage.setItem("token", responseBody.userInfo.token);
+      localStorage.setItem("user", JSON.stringify(responseBody.userInfo.user));
 
       // Redirect to appropriate dashboard based on userType
       navigate(userType === 'Student' ? '/studentDashboard' : '/visitorDashboard');

@@ -143,7 +143,7 @@ const IndoorNavigationCarousel = () => {
                         key={idx}
                         src={img.src}
                         alt={img.alt}
-                        className="cursor-pointer max-w-[400px] max-h-[400px] object-cover aspect-square"
+                        className="cursor-pointer w-[300px] h-[300px] object-cover aspect-square"
                         onClick={() => handleSectionImageClick(img.src)}
                         loading="lazy" // Lazy loading enabled
                       />

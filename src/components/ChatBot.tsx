@@ -8,9 +8,7 @@ import { API_URL, CLIENT_ID } from "../constants";
 var userMessages: any[] = [];
 
 const Chatbot: React.FC = () => {
-  
   const clientId = CLIENT_ID;
-
   const token = localStorage.getItem("token");
   const [client] = useState(getClient({ clientId }));
   const [_, setChatUI] = useState<any[]>([]);
