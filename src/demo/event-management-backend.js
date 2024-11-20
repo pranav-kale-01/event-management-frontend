@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://pranav013:RGWsWxaxsP0rv6Ee@cluster0.37os3.mongodb.net/ameya?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://pranav013:RGWsWxaxsP0rv6Ee@cluster0.37os3.mongodb.net/mgmcampusnavigator?retryWrites=true&w=majority');
 
 // Event Schema
 const eventSchema = new mongoose.Schema({
