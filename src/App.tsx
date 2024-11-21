@@ -11,6 +11,13 @@ import VerifyOtp from './demo/verify-otp';
 import VisitorDashboard from './demo/visitorDashboard';
 import OutdoorMap from './components/OutdoorMap';
 import LiveMap from './components/livemaps';
+import Indoor from './components/indoor';
+
+import ServicesPage from './pages/ServicesPage'; // For Services page
+import CanteenPage from './pages/CanteenPage'; // For Canteen page
+import HostelPage from './pages/HostelPage'; // For Hostel page
+import SwimmingPage from './pages/swimmingPage'; // For Swimming page
+import LibraryPage from './pages/LibraryPage'; // For Library page
 
 const App: React.FC = () => {
   return (
@@ -30,6 +37,12 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/outdoor-navigation" element={<OutdoorMap />} />
           <Route path="/live-map" element={<LiveMap />} />
+          <Route path="/indoor" element={<Indoor/>}/>
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/canteen" element={<CanteenPage />} />
+          <Route path="/hostel" element={<HostelPage />} />
+          <Route path="/swimming" element={<SwimmingPage />} />
+          <Route path="/library" element={<LibraryPage />} /> {/* Library with Meditation Center */}
         </Routes>
       </div>
     </Router>
