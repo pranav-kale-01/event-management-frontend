@@ -346,7 +346,7 @@ const EventManagement: React.FC = () => {
       <div className="flex flex-col h-screen w-screen overflow-x-hidden">
         {/* Header */}
         <div className="flex justify-between items-center mb-6 px-4 my-4 border-b-2 pb-4">
-          <h2 className="text-2xl font-bold">Campus Navigator</h2>
+          <h2 className="text-2xl font-bold">Campus Helper</h2>
           <div className="flex gap-2">
             {currentUser ? (
               <>

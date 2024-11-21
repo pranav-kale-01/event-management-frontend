@@ -9,6 +9,8 @@ import EventManagement from './demo/event-management-frontend';
 import SignupPage from './demo/signup-page';
 import VerifyOtp from './demo/verify-otp';
 import VisitorDashboard from './demo/visitorDashboard';
+import OutdoorMap from './components/OutdoorMap';
+import LiveMap from './components/livemaps';
 
 const App: React.FC = () => {
   return (
@@ -26,6 +28,8 @@ const App: React.FC = () => {
           <Route path="/visitorDashboard" element={<VisitorDashboard/>} />
           <Route path="/adminDashboard" element={<EventManagement />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/outdoor-navigation" element={<OutdoorMap />} />
+          <Route path="/live-map" element={<LiveMap />} />
         </Routes>
       </div>
     </Router>

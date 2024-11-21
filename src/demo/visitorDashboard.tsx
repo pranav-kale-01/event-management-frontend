@@ -1,17 +1,16 @@
 import { useState } from "react";
-import GoogleMap from "../components/GoogleMap"; // Assume you have this component for the map
-import Chatbot from "../components/ChatBot"; // Assume you have this component for the chatbot
-import IndoorNavigationCarousel from "../components/IndoorNavigationCarousel"; // Assume you have this component for the carousel
+import GoogleMap from "../components/GoogleMap"; // Assuming you have this component for the map
+import Chatbot from "../components/ChatBot"; // Assuming you have this component for the chatbot
+import IndoorNavigationCarousel from "../components/IndoorNavigationCarousel"; // Assuming you have this component for the carousel             
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import CustomFooter from "@/components/customFooter";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Importing useNavigate for routing
 import ImportantLinks from "@/components/ImportantLinks";
 import { API_URL } from "../constants";
 
-
 const VisitorDashboard = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook to navigate between pages
 
   const handleLogout = () => {
     // Perform logout action
@@ -51,11 +50,35 @@ const VisitorDashboard = () => {
   return (
     <div className="bg-[#f3f4f6] flex flex-col min-h-screen w-screen overflow-x-hidden">
       {/* Header */}
-      <header className="text-black flex justify-between items-center p-4 shadow-lg">
-        <h1 className="text-3xl font-bold">Campus Navigator</h1>
-        <Button onClick={handleLogout} className="bg-red-500 hover:bg-red-700">
-          Logout
-        </Button>
+      <header className="text-black flex justify-between items-center p-4 shadow-lg bg-white">
+        <h1 className="text-3xl font-bold">Campus Helper</h1>
+        <div className="flex space-x-6">
+          <button
+            onClick={() => navigate("/indoor-navigation")}
+            className="bg-gray-200 hover:bg-gray-300 text-black font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+          >
+            Indoor Navigation
+          </button>
+          <button
+            onClick={() => navigate("/outdoor-navigation")}
+            className="bg-gray-200 hover:bg-gray-300 text-black font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+          >
+            Outdoor Navigation
+          </button>
+
+          <button
+            onClick={() => navigate("/live-map")}
+            className="bg-gray-200 hover:bg-gray-300 text-black font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+          >
+            LiveMaps
+          </button>
+          <Button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md"
+          >
+            Logout
+          </Button>
+        </div>
       </header>
 
       {/* Main Content */}
@@ -166,7 +189,7 @@ const VisitorDashboard = () => {
         </div>
       </main>
 
-      <CustomFooter/>
+      <CustomFooter />
     </div>
   );
 };
